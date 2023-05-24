@@ -1,0 +1,61 @@
+class VendingMachine:
+    def __init__(self):
+        self.products = {
+            "001": {"soda_name": "Coke" , "price": 2.5},
+            "002": {"soda_name": "Fanta" , "price": 3.0},
+            "003": {"soda_name": "Sprite" , "price": 2.75},
+            "004": {"soda_name": "Pepsi" , "price": 2.0},
+            "005": {"soda_name": "7up" , "price": 3.25} }
+    
+    def available_products(self):
+        print("Sodas available:")
+        for code, details in self.products.items():
+            soda_name = details["soda_name"]
+            price = details["price"]
+            print(f"Code = {code}, Drink = {soda_name }, Price = {price:.2f}") # :.2f converts the float into 2 decimal format.
+    
+    def select_product(self, code, amount_paid):
+        if code in self.products:
+            product = self.products[code]
+            soda_name = product["soda_name"]
+            price = product["price"]
+            
+            quantity = int(input("Enter the number of bottles required: "))
+            self.request_products(code, quantity)
+            total_price = self.calculate_products_price(code, quantity)
+            print(f"Your total price would be {total_price:.2f}")
+
+            if amount_paid == total_price:
+                print("Thank for your purchase! Hope to see you soon.")
+            elif amount_paid > total_price:
+                change = amount_paid - total_price
+                print(f"Dispensing {soda_name}. Enjoy! ,Your balance is :${change:.2f}")
+            else:
+                print("Insufficient amount. Please top up to purchase drink")
+        else:
+            print ("Invalid product code")
+    
+    def request_products(self, code, quantity):
+        if code in self.products:
+            product = self.products[code]
+            soda_name = product["soda_name"]
+            print(f"{quantity} bottle(s) of {soda_name} selected.")
+        else:
+            print("Invalid product code")
+    
+    def calculate_products_price(self,code,quantity):
+        if code in self.products:
+            total_price = quantity * self.products[code]["price"]
+            return total_price 
+        else:
+            print("Invalid product code")
+
+    
+
+# Test usage
+new_vending_machine = VendingMachine()
+new_vending_machine.available_products()
+user_code = input("Enter a product code:")
+amount_paid = float(input("Enter the amount you are paying :"))
+
+new_vending_machine.select_product(user_code, amount_paid)
